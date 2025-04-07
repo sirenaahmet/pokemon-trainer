@@ -2,16 +2,31 @@
 import { useState } from 'react';
 
 import { PokemonCard } from '@/app/components/PokemonCard';
-interface Pokemon {
+type Pokemon = {
   id: number;
   name: string;
-}
+  url: string;
+};
 
-interface PokemonListProps {
+type PokemonListProps = {
   pokemonList: Pokemon[];
-}
+};
+
 export function PokemonList({ pokemonList }: PokemonListProps) {
   const [searchText, setSearchText] = useState('');
+
+  const searchFilter = (pokemonList: Pokemon[]) => {
+    return pokemonList.filter((pokemon: Pokemon) => {
+      const nameMatch = pokemon.name
+        .toLowerCase()
+        .includes(searchText.toLowerCase());
+      const idMatch =
+        pokemon.url.split('/').filter(Boolean).pop() === searchText;
+      return nameMatch || idMatch;
+    });
+  };
+
+  const filteredPokeList = searchFilter(pokemonList);
 
   return (
     <>
@@ -42,7 +57,7 @@ export function PokemonList({ pokemonList }: PokemonListProps) {
           Pokémon Collection
         </h3>
         <div className='grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl px-4'>
-          {pokemonList.map((pokemon: Pokemon) => {
+          {filteredPokeList.map((pokemon: Pokemon) => {
             return <PokemonCard key={pokemon.id} name={pokemon.name} />;
           })}
         </div>
