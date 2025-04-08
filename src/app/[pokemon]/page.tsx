@@ -8,17 +8,14 @@ import { PokemonExtraFeatures } from '@/app/components/PokemonList';
 export type PokeStats = {
   stat: {
     name: string;
-    url: string;
   };
   base_stat: number;
-  effort: number;
 };
 
 export type PokeType = {
   slot: number;
   type: {
     name: string;
-    url: string;
   };
 };
 
@@ -32,14 +29,14 @@ export default async function PokemonDetailsPage({
   const pokemonObj: PokemonExtraFeatures = await getPokemonByName(pokemon);
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen py-10 px-4 bg-gradient-to-b from-blue-50 to-blue-200'>
-      <h1 className='text-5xl font-extrabold text-orange-600 mb-6'>
+    <div className='flex flex-col items-center justify-center min-h-screen py-10 px-4 bg-gradient-to-b from-blue-100 to-blue-500'>
+      <h1 className='animate-pulse text-5xl font-extrabold text-orange-600 mb-6'>
         {pokemon.charAt(0).toUpperCase() + pokemon.slice(1)}
       </h1>
 
-      <div className='bg-white p-6 rounded-lg shadow-lg max-w-md w-full text-center'>
+      <div className='bg-orange-200 p-6 rounded-lg shadow-lg max-w-md w-full text-center'>
         <Image
-          src={pokemonObj.sprites.front_default}
+          src={pokemonObj.sprites.other['official-artwork'].front_default}
           alt='pokemon'
           width='200'
           height='200'
@@ -56,7 +53,7 @@ export default async function PokemonDetailsPage({
             const statValue = statobj.base_stat;
 
             return (
-              <div key={statName} className='flex flex-col items-center'>
+              <div key={statName} className='flex justify-between m-4'>
                 <p className='text-lg font-medium text-gray-700 capitalize'>
                   {statName}
                 </p>
@@ -67,15 +64,21 @@ export default async function PokemonDetailsPage({
             );
           })}
         </div>
+      </div>
+      <div className='mt-6 flex gap-4'>
+        <Link
+          href='/'
+          className='inline-block text-center text-lg font-medium text-white bg-orange-500 py-2 px-6 rounded-full transition-all hover:bg-orange-600 focus:outline-none'
+        >
+          Go to Pokémon List
+        </Link>
 
-        <div className='mt-6'>
-          <Link
-            href='/'
-            className='inline-block text-center text-lg font-medium text-white bg-orange-500 py-2 px-6 rounded-full transition-all hover:bg-orange-600 focus:outline-none'
-          >
-            Back to Pokémon List
-          </Link>
-        </div>
+        <Link
+          href='/trainer'
+          className='inline-block text-center text-lg font-medium text-white bg-orange-500 py-2 px-6 rounded-full transition-all hover:bg-orange-600 focus:outline-none'
+        >
+          Go to Trainer Page
+        </Link>
       </div>
     </div>
   );

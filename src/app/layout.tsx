@@ -22,6 +22,10 @@ export default function RootLayout({
     <html lang='en'>
       <body>
         <TrainerProvider>{children}</TrainerProvider>
+
+        <footer className='text-center p-4 text-white bg-[#FF6347]'>
+          © {new Date().getFullYear()} Pokémon Trainer App
+        </footer>
       </body>
     </html>
   );

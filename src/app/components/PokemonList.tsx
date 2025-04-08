@@ -14,7 +14,11 @@ export type Pokemon = {
 export type PokemonExtraFeatures = Pokemon & {
   url: string;
   sprites: {
-    front_default: string;
+    other: {
+      'official-artwork': {
+        front_default: string;
+      };
+    };
   };
   weight: number;
   stats: PokeStats[];
@@ -73,6 +77,7 @@ export function PokemonList({ pokemonList }: PokemonListProps) {
             return (
               <PokemonCard
                 key={pokemon.id}
+                id={pokemon.id}
                 name={pokemon.name}
                 type={pokemon.type}
                 image={pokemon.image}

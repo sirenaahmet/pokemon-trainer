@@ -14,7 +14,7 @@ export async function getPokemonList(): Promise<PokemonExtraFeatures[]> {
       return {
         id: details.id,
         name: details.name,
-        image: details.sprites.front_default,
+        image: details.sprites.other['official-artwork'].front_default,
         type: details.types,
         url: pokemon.url,
         weight: details.weight,
