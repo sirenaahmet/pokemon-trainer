@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import * as React from 'react';
 
 import '@/styles/globals.css';
+import { TrainerProvider } from '@/app/context/TrainerContext';
 
 export const metadata: Metadata = {
   title: 'Pokémon Page',
@@ -18,7 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body>{children}</body>
+      <body>
+        <TrainerProvider>{children}</TrainerProvider>
+      </body>
     </html>
   );
 }
