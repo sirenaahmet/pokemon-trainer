@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import * as React from 'react';
 
 import '@/styles/globals.css';
+
 import { TrainerProvider } from '@/app/context/TrainerContext';
 
 export const metadata: Metadata = {
