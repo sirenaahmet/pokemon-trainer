@@ -1,42 +1,24 @@
 'use client';
 import { useState } from 'react';
 
-import { PokeStats, PokeType } from '@/app/[pokemon]/page';
 import { PokemonCard } from '@/app/components/PokemonCard';
 
-export type Pokemon = {
-  id: number;
-  name: string;
-  image: string;
-  type: PokeType[];
-};
-
-export type PokemonExtraFeatures = Pokemon & {
-  url: string;
-  sprites: {
-    other: {
-      'official-artwork': {
-        front_default: string;
-      };
-    };
-  };
-  weight: number;
-  stats: PokeStats[];
-};
+import { Pokemon } from '@/types/pokemonTypes';
 
 type PokemonListProps = {
-  pokemonList: PokemonExtraFeatures[];
+  pokemonList: Pokemon[];
 };
 
 export function PokemonList({ pokemonList }: PokemonListProps) {
   const [searchText, setSearchText] = useState('');
 
-  const searchFilter = (pokemonList: PokemonExtraFeatures[]) => {
-    return pokemonList.filter((pokemon: PokemonExtraFeatures) => {
+  const searchFilter = (pokemonList: Pokemon[]) => {
+    return pokemonList.filter((pokemon: Pokemon) => {
       const nameMatch = pokemon.name
         .toLowerCase()
-        .includes(searchText.toLowerCase());
+        .startsWith(searchText.toLowerCase());
       const idMatch =
+        pokemon.url &&
         pokemon.url.split('/').filter(Boolean).pop() === searchText;
       return nameMatch || idMatch;
     });
@@ -69,21 +51,28 @@ export function PokemonList({ pokemonList }: PokemonListProps) {
           </div>
         </div>
 
-        <h3 className='text-4xl font-extrabold text-white mt-16 mb-8 text-center'>
+        <h3 className='text-4xl font-extrabold text-white mt-16 mb-9 text-center'>
           Pokémon Collection
         </h3>
         <div className='grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl px-4'>
-          {filteredPokeList.map((pokemon: Pokemon) => {
-            return (
-              <PokemonCard
-                key={pokemon.id}
-                id={pokemon.id}
-                name={pokemon.name}
-                type={pokemon.type}
-                image={pokemon.image}
-              />
-            );
-          })}
+          {filteredPokeList.length > 0 ? (
+            filteredPokeList.map((pokemon: Pokemon) => {
+              return (
+                <PokemonCard
+                  key={pokemon.id}
+                  id={pokemon.id}
+                  name={pokemon.name}
+                  type={pokemon.type}
+                  image={pokemon.image}
+                />
+              );
+            })
+          ) : (
+            <div className='col-span-full text-center text-xl text-gray-800 font-semibold'>
+              Oops! The Pokémon you looked up isn't part of the collection. Try
+              searching for another one!
+            </div>
+          )}
         </div>
       </div>
     </>

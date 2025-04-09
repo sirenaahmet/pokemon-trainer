@@ -5,7 +5,7 @@ import { createContext } from 'react';
 import { ReactNode } from 'react';
 import { useState } from 'react';
 
-import { Pokemon } from '@/app/components/PokemonList';
+import { Pokemon } from '@/types/pokemonTypes';
 
 type TrainerContextType = {
   team: Pokemon[];

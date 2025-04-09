@@ -1,12 +1,12 @@
-import { PokemonExtraFeatures } from '@/app/components/PokemonList';
+import { Pokemon } from '@/types/pokemonTypes';
 
 const pokemon_API = 'https://pokeapi.co/api/v2/';
 
-export async function getPokemonList(): Promise<PokemonExtraFeatures[]> {
+export async function getPokemonList(): Promise<Pokemon[]> {
   const res = await fetch(pokemon_API + 'pokemon?limit=30&offset=0');
   const data = await res.json();
 
-  const detailedData: PokemonExtraFeatures[] = await Promise.all(
+  const detailedData: Pokemon[] = await Promise.all(
     data.results.map(async (pokemon: { name: string; url: string }) => {
       const res = await fetch(pokemon.url);
       const details = await res.json();

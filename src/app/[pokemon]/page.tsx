@@ -1,23 +1,10 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { getPokemonByName } from '@/lib/pokemonAPI';
 
-import { PokemonExtraFeatures } from '@/app/components/PokemonList';
+import { PokemonCard } from '@/app/components/PokemonCard';
 
-export type PokeStats = {
-  stat: {
-    name: string;
-  };
-  base_stat: number;
-};
-
-export type PokeType = {
-  slot: number;
-  type: {
-    name: string;
-  };
-};
+import { Pokemon } from '@/types/pokemonTypes';
 
 export default async function PokemonDetailsPage({
   params,
@@ -26,56 +13,38 @@ export default async function PokemonDetailsPage({
 }) {
   const { pokemon } = params;
 
-  const pokemonObj: PokemonExtraFeatures = await getPokemonByName(pokemon);
+  const pokemonObj: Pokemon = await getPokemonByName(pokemon);
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen py-10 px-4 bg-gradient-to-b from-blue-100 to-blue-500'>
-      <h1 className='animate-pulse text-5xl font-extrabold text-orange-600 mb-6'>
-        {pokemon.charAt(0).toUpperCase() + pokemon.slice(1)}
-      </h1>
-
-      <div className='bg-orange-200 p-6 rounded-lg shadow-lg max-w-md w-full text-center'>
-        <Image
-          src={pokemonObj.sprites.other['official-artwork'].front_default}
-          alt='pokemon'
-          width='200'
-          height='200'
-          className='mx-auto rounded-lg mb-4'
-        />
-
-        <h3 className='text-2xl text-gray-800 font-semibold mb-2'>
-          Weight: {pokemonObj.weight} kg
-        </h3>
-
-        <div className='flex-col mb-4'>
-          {pokemonObj.stats.map((statobj: PokeStats) => {
-            const statName = statobj.stat.name;
-            const statValue = statobj.base_stat;
-
-            return (
-              <div key={statName} className='flex justify-between m-4'>
-                <p className='text-lg font-medium text-gray-700 capitalize'>
-                  {statName}
-                </p>
-                <p className='text-xl font-semibold text-gray-900'>
-                  {statValue}
-                </p>
-              </div>
-            );
-          })}
-        </div>
+    <div className='flex flex-col items-center justify-center min-h-screen py-10 px-4 bg-gradient-to-b from-blue-300 via-blue-400 to-blue-500'>
+      <div className='text-center mb-8 max-w-xl'>
+        <h2 className='text-6xl font-extrabold text-orange-700 mb-4 drop-shadow-md'>
+          Meet{' '}
+          {pokemonObj.name.charAt(0).toUpperCase() + pokemonObj.name.slice(1)}!
+        </h2>
       </div>
-      <div className='mt-6 flex gap-4'>
+
+      <PokemonCard
+        id={pokemonObj.id}
+        name={pokemonObj.name}
+        image={
+          pokemonObj.sprites?.other?.['official-artwork']?.front_default ?? ''
+        }
+        weight={pokemonObj.weight}
+        stats={pokemonObj.stats}
+      />
+
+      <div className='mt-8 flex gap-6'>
         <Link
           href='/'
-          className='inline-block text-center text-lg font-medium text-white bg-orange-500 py-2 px-6 rounded-full transition-all hover:bg-orange-600 focus:outline-none'
+          className='inline-block text-center text-lg font-medium text-white bg-orange-500 py-3 px-6 rounded-full transition-all hover:bg-orange-600 focus:outline-none'
         >
           Go to Pokémon List
         </Link>
 
         <Link
           href='/trainer'
-          className='inline-block text-center text-lg font-medium text-white bg-orange-500 py-2 px-6 rounded-full transition-all hover:bg-orange-600 focus:outline-none'
+          className='inline-block text-center text-lg font-medium text-white bg-orange-500 py-3 px-6 rounded-full transition-all hover:bg-orange-600 focus:outline-none'
         >
           Go to Trainer Page
         </Link>
